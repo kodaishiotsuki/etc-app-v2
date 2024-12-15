@@ -12,11 +12,11 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const flaskApiUrl = "http://backend:4000/api/upload";
+    const djangoApiUrl = `${process.env.NEXT_PUBLIC_DJANGO_API_URL}/upload/`;
     const backendFormData = new FormData();
     backendFormData.append("file", file);
 
-    const response = await fetch(flaskApiUrl, {
+    const response = await fetch(djangoApiUrl, {
       method: "POST",
       body: backendFormData,
       headers: {
