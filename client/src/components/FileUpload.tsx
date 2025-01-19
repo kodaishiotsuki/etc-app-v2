@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { log } from "@/lib/logger";
 
 export default function FileUpload() {
   const [file, setFile] = useState<File | null>(null);
@@ -33,15 +34,15 @@ export default function FileUpload() {
     formData.append("format", format);
 
     try {
-      console.log("Submitting form with format:", format);
+      log.debug("Submitting form with format:", format);
       const response = await fetch("/api/upload", {
         method: "POST",
         body: formData,
       });
 
-      console.log("Response status:", response.status);
+      log.debug("Response status:", response.status);
       const contentType = response.headers.get("content-type");
-      console.log("Response content type:", contentType);
+      log.debug("Response content type:", contentType);
 
       if (!response.ok) {
         let errorMessage = "ファイル処理中にエラーが発生しました。";
@@ -54,7 +55,7 @@ export default function FileUpload() {
             errorMessage = errorText || errorMessage;
           }
         } catch (parseError) {
-          console.error("Error parsing error response:", parseError);
+          log.error("Error parsing error response:", parseError);
         }
         throw new Error(errorMessage);
       }
@@ -78,7 +79,7 @@ export default function FileUpload() {
       }
       setErrorMessage(null);
     } catch (error) {
-      console.error("Error:", error);
+      log.error("Error:", error);
       setErrorMessage(
         error instanceof Error
           ? error.message

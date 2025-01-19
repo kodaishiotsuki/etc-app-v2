@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { log } from "@/lib/logger";
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
@@ -18,8 +19,8 @@ export async function POST(req: NextRequest) {
     backendFormData.append("file", file);
     backendFormData.append("format", format);
 
-    console.log("Sending request to:", djangoApiUrl);
-    console.log("Format:", format);
+    log.debug("Sending request to:", djangoApiUrl);
+    log.debug("Format:", format);
 
     const response = await fetch(djangoApiUrl, {
       method: "POST",
@@ -33,41 +34,41 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    console.log("Response status:", response.status);
-    console.log(
+    log.debug("Response status:", response.status);
+    log.debug(
       "Response headers:",
       Object.fromEntries(response.headers.entries())
     );
-    console.log("Response content type:", response.headers.get("content-type"));
+    log.debug("Response content type:", response.headers.get("content-type"));
 
     if (!response.ok) {
       let errorMessage = "バックエンド処理中にエラーが発生しました。";
       try {
         const contentType = response.headers.get("content-type");
-        console.log("Error response content type:", contentType);
+        log.debug("Error response content type:", contentType);
         const responseText = await response.text();
-        console.log("Error response text:", responseText);
+        log.debug("Error response text:", responseText);
 
         if (contentType?.includes("application/json")) {
           try {
             const errorData = JSON.parse(responseText);
             errorMessage = errorData.error || errorData.detail || errorMessage;
           } catch (jsonError) {
-            console.error("Error parsing JSON response:", jsonError);
+            log.error("Error parsing JSON response:", jsonError);
             errorMessage = responseText || errorMessage;
           }
         } else {
           errorMessage = responseText || errorMessage;
         }
       } catch (parseError) {
-        console.error("Error reading response:", parseError);
+        log.error("Error reading response:", parseError);
       }
       throw new Error(errorMessage);
     }
 
     if (format === "excel") {
       const contentType = response.headers.get("content-type");
-      console.log("Excel response content type:", contentType);
+      log.debug("Excel response content type:", contentType);
 
       const blob = await response.blob();
       const contentDisposition = response.headers.get("content-disposition");
@@ -87,7 +88,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(data);
     }
   } catch (error) {
-    console.error("エラーハンドリング:", error);
+    log.error("エラーハンドリング:", error);
     return NextResponse.json(
       {
         error:
