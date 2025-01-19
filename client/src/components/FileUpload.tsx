@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export default function FileUpload() {
   const [file, setFile] = useState<File | null>(null);
@@ -99,21 +100,23 @@ export default function FileUpload() {
           onChange={handleFileChange}
           className="w-full p-2 border rounded-lg"
         />
-        <div className="flex gap-2">
-          <button
+        <div className="flex gap-4 justify-between">
+          <Button
             onClick={(e) => handleSubmit(e, "markdown")}
-            className="flex-1 p-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition duration-200"
+            variant="default"
             disabled={loading}
+            className="w-48 flex items-center justify-center"
           >
             {loading ? "処理中..." : "Markdownで表示"}
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={(e) => handleSubmit(e, "excel")}
-            className="flex-1 p-2 bg-green-500 text-white font-semibold rounded-lg hover:bg-green-600 transition duration-200"
+            variant="secondary"
             disabled={loading}
+            className="w-48 flex items-center justify-center"
           >
-            {loading ? "処理中..." : "Excelでダウンロード"}
-          </button>
+            {loading ? "処理中..." : "CSVでダウンロード"}
+          </Button>
         </div>
       </form>
       {errorMessage && (
