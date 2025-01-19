@@ -116,7 +116,7 @@ export default function FileUpload() {
             disabled={loading}
             className="w-48 flex items-center justify-center"
           >
-            {loading ? "処理中..." : "CSVでダウンロード"}
+            {loading ? "処理中..." : "Excelでダウンロード"}
           </Button>
         </div>
       </form>
