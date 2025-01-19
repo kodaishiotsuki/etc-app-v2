@@ -1,15 +1,13 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# clientディレクトリに移動
-cd "$(dirname -- "$0")/../"
-
 echo "🔍 Checking code style and running tests..."
 
-# ESLintとPrettierを実行
+# clientディレクトリに移動してlint-stagedを実行
+cd "$(git rev-parse --show-toplevel)/client"
 npx lint-staged || {
     echo "❌ Code style check failed. Please fix the errors and try committing again."
     exit 1
 }
 
-echo "✅ Code style check passed!" 
+echo "✅ Code style check passed!"
