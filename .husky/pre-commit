@@ -1,2 +1,14 @@
 #!/usr/bin/env sh
-cd client && npx lint-staged
+. "$(dirname -- "$0")/_/husky.sh"
+
+cd client
+
+echo "🔍 Checking code style and running tests..."
+
+# ESLintとPrettierを実行
+npx lint-staged || {
+    echo "❌ Code style check failed. Please fix the errors and try committing again."
+    exit 1
+}
+
+echo "✅ Code style check passed!"
