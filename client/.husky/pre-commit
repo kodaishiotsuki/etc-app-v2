@@ -1,7 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-cd client
+# clientディレクトリに移動
+cd "$(dirname -- "$0")/../"
 
 echo "🔍 Checking code style and running tests..."
 
@@ -11,4 +12,4 @@ npx lint-staged || {
     exit 1
 }
 
-echo "✅ Code style check passed!"
+echo "✅ Code style check passed!" 
