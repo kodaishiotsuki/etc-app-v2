@@ -10,7 +10,7 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
-    "postinstall": "cd .. && husky install client/.husky"
+    "prepare": "cd .. && husky install"
   },
   "dependencies": {
     "@radix-ui/react-icons": "^1.3.2",
@@ -49,11 +49,11 @@
     "typescript": "^5"
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx}": [
+    "*.{js,jsx,ts,tsx}": [
       "eslint --fix",
       "prettier --write"
     ],
-    "src/**/*.{json,css,scss,md}": [
+    "*.{json,css,scss,md}": [
       "prettier --write"
     ]
   }

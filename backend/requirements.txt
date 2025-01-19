@@ -1,9 +1,11 @@
+black==24.2.0
+flake8==7.0.0
 Django==5.0.2
-djangorestframework==3.15.1
+djangorestframework==3.14.0
 psycopg==3.1.8
 watchdog==5.0.3
 PyMuPDF==1.24.12
-pandas==2.2.3
+pandas==2.2.0
 numpy==2.0.2
 pymupdf4llm
 pytesseract
@@ -11,7 +13,9 @@ pillow
 pymupdf
 pdfplumber
 pdf2image
-markdownify
+markdownify==0.11.6
 openpyxl==3.1.2
 django-cors-headers==4.3.1
+django-environ==0.11.2
+PyPDF2==3.0.1
 

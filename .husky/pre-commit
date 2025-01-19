@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🔍 フロントエンドのコードチェックを実行中..."
+# clientディレクトリのlint-stagedを実行
+cd client && npx lint-staged
+cd ..
+
+echo "🔍 バックエンドのコードチェックを実行中..."
+# backendディレクトリのlint-stagedを実行（Docker内で実行）
+cd backend
+if docker compose ps | grep -q "app.*running"; then
+  docker compose exec -T app black . --check
+  docker compose exec -T app flake8 .
+else
+  echo "⚠️ バックエンドのDockerコンテナが実行されていません。スキップします。"
+fi 
