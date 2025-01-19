@@ -1,4 +1,4 @@
-FROM python:3.13-slim
+FROM python:3.11-slim
 
 WORKDIR /usr/src/backend
 
@@ -12,14 +12,22 @@ RUN apt-get update && apt-get install -y \
     tesseract-ocr \
     tesseract-ocr-jpn \
     libtesseract-dev \
+    poppler-utils \
+    wget \
     --no-install-recommends && \
+    mkdir -p /usr/share/tesseract-ocr/4.00/tessdata && \
+    wget https://github.com/tesseract-ocr/tessdata_best/raw/main/jpn.traineddata -P /usr/share/tesseract-ocr/4.00/tessdata/ && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# pip のアップグレード
 RUN pip install --upgrade pip
 
+# 必要な Python ライブラリをインストール
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
+# ソースコードをコンテナにコピー
 COPY . .
 
+# アプリケーションの起動コマンド
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
